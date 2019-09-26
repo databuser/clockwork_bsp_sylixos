@@ -37,10 +37,12 @@ SylixOS/bsp/startup.S \
 SylixOS/bsp/bspInit.c \
 SylixOS/bsp/bspLib.c \
 SylixOS/bsp/clockwork_cpi_v31/clockwork_cpi_v31.c \
+SylixOS/driver/ccu/ccu.c \
 SylixOS/driver/cpu/cpu.c \
 SylixOS/driver/gic/armGic.c \
 SylixOS/driver/gpio/gpio.c \
 SylixOS/driver/pinmux/pinmux.c \
+SylixOS/driver/sd/sunxi_mmc.c \
 SylixOS/driver/sio/16550.c \
 SylixOS/driver/sio/sio.c \
 SylixOS/driver/timer/timer.c \

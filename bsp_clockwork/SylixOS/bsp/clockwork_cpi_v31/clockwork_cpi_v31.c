@@ -10,6 +10,8 @@
 #include "driver/uart/uart.h"
 #include "driver/sio/sio.h"
 #include "driver/gpio/gpio.h"
+#include "driver/pinmux/pinmux.h"
+#include "driver/sd/sunxi_mmc.h"
 
 VOID  bspBoardTargetInit (VOID)
 {
@@ -52,6 +54,8 @@ VOID bspBoardDevInit (VOID)
     if (psio) {
         ttyDevCreate("/dev/ttyS0", psio, 1024, 1024);                   /*  增加 tty 设备               */
     }
+
+    sdDrvInstall(0, GPIO_B_03, GPIO_NONE, TRUE);
 }
 
 /*
@@ -99,6 +103,6 @@ VOID  bspBoardSymbolInit (VOID)
 VOID  bspBoardkernelStartParam (VOID)
 {
     API_KernelStartParam(NCPUS
-                         " sldepcache=yes kdlog=no kderror=no kfpu=no heapchk=yes hz=100 hhz=100 "
+                         " sldepcache=yes kdlog=no kderror=no kfpu=no heapchk=yes hz=1000 hhz=1000 "
                          MOUNT_PARAMETERS);                             /*  操作系统启动参数设置        */
 }
