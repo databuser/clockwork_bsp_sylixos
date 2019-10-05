@@ -39,6 +39,7 @@ SylixOS/bsp/bspLib.c \
 SylixOS/bsp/clockwork_cpi_v31/clockwork_cpi_v31.c \
 SylixOS/driver/ccu/ccu.c \
 SylixOS/driver/cpu/cpu.c \
+SylixOS/driver/display/display.c \
 SylixOS/driver/gic/armGic.c \
 SylixOS/driver/gpio/gpio.c \
 SylixOS/driver/pinmux/pinmux.c \

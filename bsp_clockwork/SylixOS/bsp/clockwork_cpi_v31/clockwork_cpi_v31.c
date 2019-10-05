@@ -12,6 +12,7 @@
 #include "driver/gpio/gpio.h"
 #include "driver/pinmux/pinmux.h"
 #include "driver/sd/sunxi_mmc.h"
+#include "driver/display/display.h"
 
 VOID  bspBoardTargetInit (VOID)
 {
@@ -54,6 +55,8 @@ VOID bspBoardDevInit (VOID)
     if (psio) {
         ttyDevCreate("/dev/ttyS0", psio, 1024, 1024);                   /*  增加 tty 设备               */
     }
+
+    lcdDevCreate();
 
     sdDrvInstall(0, GPIO_B_03, GPIO_NONE, TRUE);
 }

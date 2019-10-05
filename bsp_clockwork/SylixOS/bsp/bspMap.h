@@ -79,6 +79,13 @@ LW_MMU_PHYSICAL_DESC    _G_physicalDesc[] = {
         LW_PHYSICAL_MEM_BOOTSFR
     },
 
+    {                                                                   /*  LCD                         */
+        0x1c0c000,
+        0x1c0c000,
+        LW_CFG_VMM_PAGE_SIZE,
+        LW_PHYSICAL_MEM_BOOTSFR
+    },
+
     {                                                                   /*  UART0 ~ 4                   */
         0x01C28000,
         0x01C28000,
@@ -97,6 +104,13 @@ LW_MMU_PHYSICAL_DESC    _G_physicalDesc[] = {
         0x01C80000,
         0x01C80000,
         (LW_CFG_VMM_PAGE_SIZE * 4),
+        LW_PHYSICAL_MEM_BOOTSFR
+    },
+
+    {                                                                   /*  DEBE                         */
+        0x01E60000,
+        0x01E60000,
+        (LW_CFG_VMM_PAGE_SIZE * 16),
         LW_PHYSICAL_MEM_BOOTSFR
     },
 

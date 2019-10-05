@@ -58,7 +58,6 @@ VOID  bspIntInit (VOID)
     armHighVectorDisable();
     armGicCpuInit(LW_FALSE, 255);
     armVectorBaseAddrSet(BSP_CFG_RAM_BASE);
-//    API_InterVectorSetFlag(SPI_PIO, LW_IRQ_FLAG_QUEUE);
 }
 /*********************************************************************************************************
 ** º¯ÊýÃû³Æ: bspIntHandle
