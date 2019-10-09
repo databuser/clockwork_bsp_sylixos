@@ -1,0 +1,50 @@
+1.Prepare a TF card,and format into FAT32.
+
+2.Refer to the following steps to flash uboot in TF card
+	a.Download u-boot-sunxi-with-spl.bin in uboot_for_sylixos
+	b.Insert TF card in PC
+	c.Use "demsg" command to show what device node was created,for example:/dev/sdb
+	d.sudo dd if=u-boot-sunxi-with-spl.bin of=/dev/sdb bs=1024 seek=8
+	
+3.Copy bsp_clockwork.bin in TF card,bsp_clockwork.bin is the SylixOS kernel image.
+
+4.Insert TF card in GameShell,connect the PC to the debug serial port on GameShell，
+power on and uboot will load SylixOS image for the FAT32 filesystem on TF card.
+
+5.Use fdisk and mkfs partition and format TF cards under SylixOS.
+Under SylixOS, the SD card is generally made into two partitions,FAT32 and Tpsfs.Tpsfs 
+is a secure file system developed by ACOINFO.The FAT32 file system is used to store 
+SylixOS images. The Tpsfs file system is used to store system and user files, such as 
+system configuration files, user apps, library files, etc.
+Refer to the following steps to partition and format TF cards under SylixOS:
+	a.umount /media/sdcard0
+	b.fdisk -f /dev/blk/sdcard-0
+		2 4096 1 y 1 0 n 2
+	c.remount /dev/blk/sdcard-0
+	d.mkfs /media/sdcard0
+	e.mkfs /media/sdcard1
+	f.sync
+	
+6.Insert TF card in PC,copy bsp_clockwork.bin in TF card FAT32 filesystem again.
+
+7.Insert TF card in GameShell and power on.
+After the system reboot,if you see "[root@sylixos:/root]" it means that partition and format is ok.
+You can use "showmount" to check if the partition was mounted success.For example:
+
+[root@sylixos:/root]# showmount
+AUTO-Mount point show >>
+       VOLUME                    BLK NAME
+-------------------- --------------------------------
+/media/sdcard2       /dev/blk/sdcard-1:0             
+/media/sdcard1       /dev/blk/sdcard-0:1             
+/media/sdcard0       /dev/blk/sdcard-0:0             
+
+MTD-Mount point show >>
+       VOLUME                    BLK NAME
+-------------------- --------------------------------
+
+Mount point show >>
+       VOLUME                    BLK NAME
+-------------------- --------------------------------
+[root@sylixos:/root]# 
+
