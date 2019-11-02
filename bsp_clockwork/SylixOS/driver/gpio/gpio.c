@@ -81,7 +81,6 @@ static VOID  sunxiR16GpioFree (PLW_GPIO_CHIP  pGpioChip, UINT uiNum)
         return  ;
     }
 
-
     /*
      *  获得引脚中断控制寄存器地址
      */
@@ -165,7 +164,11 @@ static INT  sunxiR16GpioGet (PLW_GPIO_CHIP  pGpioChip, UINT  uiNum)
         return  (PX_ERROR);
     }
 
-    ulAddr = GPIO_DAT + uiPortNum * 0x24 + GPIO_BASE;
+    if (uiPortNum == GPIO_PORT_L) {
+        ulAddr = GPIO_DAT + R_GPIO_BASE;
+    } else {
+        ulAddr = GPIO_DAT + uiPortNum * 0x24 + GPIO_BASE;
+    }
 
     return  (readl(ulAddr) & (BIT(uiPinNum))) ? 1 : 0;
 }
@@ -199,7 +202,11 @@ static VOID  sunxiR16GpioSet (PLW_GPIO_CHIP  pGpioChip, UINT  uiNum, INT  iValue
         return  ;
     }
 
-    ulAddr = GPIO_DAT + uiPortNum * 0x24 + GPIO_BASE;
+    if (uiPortNum == GPIO_PORT_L) {
+        ulAddr = GPIO_DAT + R_GPIO_BASE;
+    } else {
+        ulAddr = GPIO_DAT + uiPortNum * 0x24 + GPIO_BASE;
+    }
 
     uiRegister = readl(ulAddr);
     if (0 == iValue) {

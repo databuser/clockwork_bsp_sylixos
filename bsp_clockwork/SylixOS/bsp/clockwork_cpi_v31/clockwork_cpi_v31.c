@@ -13,7 +13,9 @@
 #include "driver/pinmux/pinmux.h"
 #include "driver/sd/sunxi_mmc.h"
 #include "driver/display/display.h"
+#include "driver/ccu/ccu.h"
 
+extern int keypad_init (void);
 VOID  bspBoardTargetInit (VOID)
 {
 }
@@ -59,6 +61,8 @@ VOID bspBoardDevInit (VOID)
     lcdDevCreate();
 
     sdDrvInstall(0, GPIO_B_03, GPIO_NONE, TRUE);
+
+    keypad_init();
 }
 
 /*

@@ -1,0 +1,7 @@
+1.Download base_a7_release form https://github.com/databuser/clockwork_base_sylixos
+
+2.Download bsp_clockwork from https://github.com/databuser/clockwork_bsp_sylixos
+
+3.You must use RealEvo-IDE (SylixOS IDE) to compile base_a7_release and bsp_clockwork.
+RealEvo-IDE is not OpenSource,you can apply for a license through the website below:
+http://www.acoinfo.com/html/experience.php

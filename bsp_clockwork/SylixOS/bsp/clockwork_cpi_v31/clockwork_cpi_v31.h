@@ -22,8 +22,6 @@
 /*********************************************************************************************************
   CPU 相关
 *********************************************************************************************************/
-#define ARM_SW_INT_VECTOR(cpuid)            cpuid                       /*  软件产生中断 ID             */
-#define ARM_SW_INT_PRIORITY                 0                           /*  软件产生中断优先级          */
 #define ARM_TICK_INT_VECTOR                 50                          /*  TICK 中断 ID                */
 #define ARM_TICK_INT_PRIORITY               1                           /*  TICK 中断优先级             */
 #define ARM_DEFAULT_INT_PRIORITY            127                         /*  默认的中断优先级            */

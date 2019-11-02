@@ -109,6 +109,18 @@ static const  UINT16  _G_usSunxiR16Gpios[] = {
     GPIO_NUM(GPIO_PORT_H, GPIO_PIN_07),
     GPIO_NUM(GPIO_PORT_H, GPIO_PIN_08),
     GPIO_NUM(GPIO_PORT_H, GPIO_PIN_09),
+    GPIO_NUM(GPIO_PORT_L, GPIO_PIN_00),
+    GPIO_NUM(GPIO_PORT_L, GPIO_PIN_01),
+    GPIO_NUM(GPIO_PORT_L, GPIO_PIN_02),
+    GPIO_NUM(GPIO_PORT_L, GPIO_PIN_03),
+    GPIO_NUM(GPIO_PORT_L, GPIO_PIN_04),
+    GPIO_NUM(GPIO_PORT_L, GPIO_PIN_05),
+    GPIO_NUM(GPIO_PORT_L, GPIO_PIN_06),
+    GPIO_NUM(GPIO_PORT_L, GPIO_PIN_07),
+    GPIO_NUM(GPIO_PORT_L, GPIO_PIN_08),
+    GPIO_NUM(GPIO_PORT_L, GPIO_PIN_09),
+    GPIO_NUM(GPIO_PORT_L, GPIO_PIN_10),
+    GPIO_NUM(GPIO_PORT_L, GPIO_PIN_11),
 };
 /*********************************************************************************************************
 ** 函数名称: gpioSysToSoc
@@ -153,7 +165,11 @@ INT32  gpioPinmuxSet (UINT32  uiNum, UINT32 uiCfg)
     /*
      *  根据组号和引脚号确定要操作哪个寄存器
      */
-    ulAddr = ((uiPinNum / 8) * 4) + (uiPortNum * 0x24) + GPIO_BASE;
+    if (uiPortNum == GPIO_PORT_L) {
+        ulAddr = ((uiPinNum / 8) * 4) + R_GPIO_BASE;
+    } else {
+        ulAddr = ((uiPinNum / 8) * 4) + (uiPortNum * 0x24) + GPIO_BASE;
+    }
 
     /*
      *  设置新值
@@ -194,7 +210,11 @@ INT32  gpioPinmuxGet (UINT32  uiNum)
     /*
      *  根据组号和引脚号确定要操作哪个寄存器
      */
-    ulAddr = ((uiPinNum / 8) * 4) + (uiPortNum * 0x24) + GPIO_BASE;
+    if (uiPortNum == GPIO_PORT_L) {
+        ulAddr = ((uiPinNum / 8) * 4) + R_GPIO_BASE;
+    } else {
+        ulAddr = ((uiPinNum / 8) * 4) + (uiPortNum * 0x24) + GPIO_BASE;
+    }
 
     uiValue  = readl(ulAddr);
     uiValue  = uiValue >> ((uiPinNum % 8) * 4);

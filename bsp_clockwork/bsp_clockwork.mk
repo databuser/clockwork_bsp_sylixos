@@ -40,8 +40,16 @@ SylixOS/bsp/clockwork_cpi_v31/clockwork_cpi_v31.c \
 SylixOS/driver/ccu/ccu.c \
 SylixOS/driver/cpu/cpu.c \
 SylixOS/driver/display/display.c \
-SylixOS/driver/gic/armGic.c \
+SylixOS/driver/display/sylixos.c \
 SylixOS/driver/gpio/gpio.c \
+SylixOS/driver/keypad/ohci-hcd.c \
+SylixOS/driver/keypad/ohci-sunxi.c \
+SylixOS/driver/keypad/usb.c \
+SylixOS/driver/keypad/usb_cmd.c \
+SylixOS/driver/keypad/usb_hub.c \
+SylixOS/driver/keypad/usb_keypad.c \
+SylixOS/driver/keypad/usb_keypad_ops.c \
+SylixOS/driver/keypad/usb_phy.c \
 SylixOS/driver/pinmux/pinmux.c \
 SylixOS/driver/sd/sunxi_mmc.c \
 SylixOS/driver/sio/16550.c \
@@ -53,27 +61,33 @@ SylixOS/user/main.c
 #*********************************************************************************************************
 # Header file search path (eg. LOCAL_INC_PATH := -I"Your header files search path")
 #*********************************************************************************************************
-LOCAL_INC_PATH := \
+LOCAL_INC_PATH :=  \
 -I"./SylixOS" \
--I"./SylixOS/bsp"
+-I"./SylixOS/bsp" \
+-I"./SylixOS/driver/keypad/include" \
+-I"./SylixOS/driver/keypad/include/linux" \
+-I"./SylixOS/driver/keypad"
 
 #*********************************************************************************************************
 # Pre-defined macro (eg. -DYOUR_MARCO=1)
 #*********************************************************************************************************
-LOCAL_DSYMBOL := \
+LOCAL_DSYMBOL :=  \
 -D__BOOT_INRAM=1
 
 #*********************************************************************************************************
 # Compiler flags
 #*********************************************************************************************************
-LOCAL_CFLAGS   := 
+LOCAL_CFLAGS := 
 LOCAL_CXXFLAGS := 
 
 #*********************************************************************************************************
 # Depend library (eg. LOCAL_DEPEND_LIB := -la LOCAL_DEPEND_LIB_PATH := -L"Your library search path")
 #*********************************************************************************************************
-LOCAL_DEPEND_LIB      := 
-LOCAL_DEPEND_LIB_PATH := 
+LOCAL_DEPEND_LIB :=  \
+-larm_a7_gic \
+-larm_cpu_boot
+LOCAL_DEPEND_LIB_PATH :=  \
+-L"$(WORKSPACE_bsp_clockwork)/SylixOS/lib"
 
 #*********************************************************************************************************
 # Link script file
@@ -99,9 +113,9 @@ LOCAL_USE_OMP := no
 #*********************************************************************************************************
 # User link command
 #*********************************************************************************************************
-LOCAL_PRE_LINK_CMD   := 
-LOCAL_POST_LINK_CMD  := 
-LOCAL_PRE_STRIP_CMD  := 
+LOCAL_PRE_LINK_CMD := 
+LOCAL_POST_LINK_CMD := 
+LOCAL_PRE_STRIP_CMD := 
 LOCAL_POST_STRIP_CMD := 
 
 include $(BSP_MK)

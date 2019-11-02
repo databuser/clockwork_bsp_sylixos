@@ -1316,6 +1316,13 @@ static INT __sdDataInit (INT iChannel, UINT32 uiSdCdPin, UINT32 uiSdWpPin)
         SD_ERR("%s err:Vector enable fail!\r\n", __func__);
         goto __erra6;
     }
+
+#if 0
+    LW_CLASS_CPUSET set;
+    LW_CPU_ZERO(&set);
+    LW_CPU_SET(2, &set);
+    API_InterSetTarget(pChannel->SDCH_uVector, sizeof(LW_CLASS_CPUSET), &set);
+#endif
 #endif
 
     pChannel->SDCH_virAddr = (addr_t)API_VmmIoRemap((PVOID)pChannel->SDCH_phyAddr, LW_CFG_VMM_PAGE_SIZE);

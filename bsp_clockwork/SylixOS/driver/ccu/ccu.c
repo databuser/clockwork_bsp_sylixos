@@ -10,6 +10,7 @@
 #include <linux/compat.h>
 
 #define CCU_REG_BASE            (0x1c20000)
+
 #define CCU_REG_BUS_CLK_GATE0   (CCU_REG_BASE + 0x60)
 #define CCU_REG_BUS_CLK_GATE1   (CCU_REG_BASE + 0x64)
 #define CCU_REG_BUS_CLK_GATE2   (CCU_REG_BASE + 0x68)
@@ -18,6 +19,9 @@
 #define CCU_REG_SDMMC0_CLK      (CCU_REG_BASE + 0x88)
 #define CCU_REG_SDMMC1_CLK      (CCU_REG_BASE + 0x8c)
 #define CCU_REG_SDMMC2_CLK      (CCU_REG_BASE + 0x90)
+
+#define CCU_REG_PLL_GPU_CTL     (CCU_REG_BASE + 0x38)
+#define CCU_REG_GPU_CLK         (CCU_REG_BASE + 0x1a0)
 
 #define CCU_REG_BUS_SOFT_RST0   (CCU_REG_BASE + 0x2c0)
 #define CCU_REG_BUS_SOFT_RST1   (CCU_REG_BASE + 0x2c4)
@@ -328,4 +332,46 @@ int ccu_mmc_clk_rate_set(int channel, int rate)
     ccu_sdmmc_clk_enable(channel, TRUE);
 
     return 0;
+}
+
+void ccu_gpu_clock_on(void)
+{
+    int val, i = 100, m, n;
+
+    // 1.reset gpu assert
+    val = readl(CCU_REG_BUS_SOFT_RST1);
+    val &= ~(1 << 20);
+    writel(val, CCU_REG_BUS_SOFT_RST1);
+
+    // 2.disable gpu pll
+    val = readl(CCU_REG_PLL_GPU_CTL);
+    val &= ~(1 << 31);
+    writel(val, CCU_REG_PLL_GPU_CTL);
+
+    // 3.set gpu pll to 384MHz(pll = 24 * n / m)
+    m = 1;
+    n = 16;
+    val &= ~(0x7fff);
+    val |= ((n -1) << 8) | (m - 1);
+
+    // 4.enable gpu pll
+    val |= 1 << 31;
+    writel(val, CCU_REG_PLL_GPU_CTL);
+
+    // 5.wait pll stable
+    while(!(readl(CCU_REG_PLL_GPU_CTL) & (1 << 28)));
+    usleep(20);
+
+    // 6.core clock on,pre-div = 1
+    writel((1 << 31), CCU_REG_GPU_CLK);
+
+    // 7.reset gpu de-assert
+    val = readl(CCU_REG_BUS_SOFT_RST1);
+    val |= (1 << 20);
+    writel(val, CCU_REG_BUS_SOFT_RST1);
+
+    // 8.bus gate off
+    val = readl(CCU_REG_BUS_CLK_GATE1);
+    val |= (1 << 20);
+    writel(val, CCU_REG_BUS_CLK_GATE1);
 }

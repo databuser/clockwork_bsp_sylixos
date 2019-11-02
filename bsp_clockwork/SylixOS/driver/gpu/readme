@@ -1,0 +1,11 @@
+1.Put libMali.so in /lib
+
+2.Put mali.ko in /lib/modules
+
+3.ln /lib/libMali.so /lib/EGL.so
+ln /lib/libMali.so /lib/GLESv1_CM.so
+ln /lib/libMali.so /lib/GLESv2.so
+
+4.insmod /lib/modules/mali.ko
+
+5.Run any GLESv2 app you want

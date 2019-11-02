@@ -7,5 +7,5 @@
 <OutputPath Name="Release" Path="Release" TreeNode="Release"/>
 </OutputSetting>
 <BuildSetting CoustomCfgMakefile="false" NeedReBuild="false" NotScanSourceFile="false"/>
-<BspSetting TemplatePath="/bsp/arm/arm-none"/>
+<BspSetting TemplatePath="/bsp/arm/arm-imx283"/>
 </SylixOSSetting>

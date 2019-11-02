@@ -56,10 +56,11 @@
 *********************************************************************************************************/
 VOID  t_main(VOID);
 /*********************************************************************************************************
- bspCpuUp* 函数声明
+ 多核启动相关函数声明
 *********************************************************************************************************/
 extern VOID  bspCpuUpDone(VOID);
 extern VOID  bspCpuUpSync (VOID);
+extern VOID  halSmpCoreInit (VOID);
 /*********************************************************************************************************
 ** 函数名称: targetInit
 ** 功能描述: 初始化
@@ -122,30 +123,6 @@ static VOID  halIdleInit (VOID)
 {
     API_SystemHookAdd(armWaitForInterrupt, 
                       LW_OPTION_THREAD_IDLE_HOOK);                      /*  空闲时暂停 CPU              */
-}
-
-/*
- *  初始化SMP相关功能
- */
-static VOID  halSmpCoreInit (VOID)
-{
-    ULONG  ulCPUId = archMpCur();
-
-    armAuxControlFeatureEnable(AUX_CTRL_A7_SMP);
-    API_CacheEnable(INSTRUCTION_CACHE);                                 /*  使能 L1 I-Cache             */
-    API_CacheEnable(DATA_CACHE);                                        /*  使能 L1 D-Cache             */
-
-    KN_SMP_MB();
-
-    API_VmmMmuEnable();                                                 /*  使能 MMU                    */
-
-    API_InterVectorIpi(ulCPUId, ARM_SW_INT_VECTOR(ulCPUId));
-    armGicIntVecterEnable(ARM_SW_INT_VECTOR(ulCPUId),
-                          LW_FALSE,
-                          ARM_SW_INT_PRIORITY, 1 << ulCPUId);           /*  使能 IPI 中断               */
-
-    bspCpuUpDone();                                                     /*  标记本核启动完成            */
-
 }
 
 /*
@@ -592,8 +569,10 @@ static PVOID  halBootThread (PVOID  pvBootArg)
     /*
      *  只有初始化了 shell 并获得了 TZ 环境变量标示的时区, 才可以调用 rtcToRoot()
      */
-//    lib_tzset();                                                        /*  通过 TZ 环境变量设置时区    */
-//    rtcToRoot();                                                        /*  将 RTC 时间同步到根文件系统 */
+#if 0
+    lib_tzset();                                                        /*  通过 TZ 环境变量设置时区    */
+    rtcToRoot();                                                        /*  将 RTC 时间同步到根文件系统 */
+#endif
 
     API_ThreadAttrSetStackSize(&threadattr, __LW_THREAD_MAIN_STK_SIZE); /*  设置 main 线程的堆栈大小    */
     API_ThreadCreate("t_main",

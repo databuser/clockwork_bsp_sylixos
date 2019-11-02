@@ -13,5 +13,6 @@ int ccu_mmc_sample_clk_set_phase(int channel, int degrees);
 int ccu_bus_mmc_soft_reset(int channel);
 int ccu_mmc_clk_enable(int channel, BOOL enable);
 int ccu_mmc_clk_rate_set(int channel, int rate);
+void ccu_gpu_clock_on(void);
 
 #endif /* SYLIXOS_DRIVER_CCU_CCU_H_ */

@@ -185,6 +185,14 @@ SIO_CHAN  *sioChanCreate (UINT  uiChannel)
 
         API_InterVectorEnable(pSio16C550Cfg->CFG_ulVector);
 
+#if 0
+        //bind interrupt on cpu
+        LW_CLASS_CPUSET set;
+        LW_CPU_ZERO(&set);
+        LW_CPU_SET(3, &set);
+        API_InterSetTarget(pSio16C550Cfg->CFG_ulVector, sizeof(LW_CLASS_CPUSET), &set);
+#endif
+
         return  ((SIO_CHAN *)pSio16C550Chan);
     } else {
         return  (LW_NULL);

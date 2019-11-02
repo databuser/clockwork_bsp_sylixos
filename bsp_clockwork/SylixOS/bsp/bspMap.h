@@ -93,9 +93,30 @@ LW_MMU_PHYSICAL_DESC    _G_physicalDesc[] = {
         LW_PHYSICAL_MEM_BOOTSFR
     },
 
+    {                                                                   /*  USB OTG                     */
+        0x01c19000,
+        0x01c19000,
+        LW_CFG_VMM_PAGE_SIZE,
+        LW_PHYSICAL_MEM_BOOTSFR
+    },
+
+    {                                                                   /*  USB OHCI0                   */
+        0x01c1a000,
+        0x01c1a000,
+        LW_CFG_VMM_PAGE_SIZE,
+        LW_PHYSICAL_MEM_BOOTSFR
+    },
+
     {                                                                   /*  CCU,PIO,TIMER               */
         0x01c20000,
         0x01c20000,
+        LW_CFG_VMM_PAGE_SIZE,
+        LW_PHYSICAL_MEM_BOOTSFR
+    },
+
+    {                                                                   /*  R_PIO                       */
+        0x01f02000,
+        0x01f02000,
         LW_CFG_VMM_PAGE_SIZE,
         LW_PHYSICAL_MEM_BOOTSFR
     },
